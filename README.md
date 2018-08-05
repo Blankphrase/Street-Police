@@ -68,7 +68,7 @@ Install dependancies that will create an environment for the app to run
 #### Create the Database
 In a new terminal, open the postgresql shell with `psql`.
 ```bash
-CREATE DATABASE tribune;
+CREATE DATABASE streetPolice;
 ```
 
 #### Make and run migrations
