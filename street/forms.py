@@ -17,6 +17,9 @@ class ProfileForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model=Post
-        fields=['topic','message','image']
+        fields = ['topic', 'message', 'image', 'created_at']
 
-
+class CommentsForm(forms.ModelForm):
+    class Meta:
+        model=Comments
+        fields = ['posted_on','comment']
