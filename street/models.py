@@ -48,23 +48,28 @@ class Neighbourhood(models.Model):
         return hoods
 
 
-class Resident(models.Model):
-    user = models.OneToOneField(User, related_name='resident', null=True)
-    suburb = models.ForeignKey(Suburb, related_name="residency", null=True)
-    avatar = models.ImageField(upload_to='avatar/', blank=True, null=True)
+class Profile(models.Model):
+    '''
+    Model that creates the profile logic
+    '''
 
+    user = models.OneToOneField(User, related_name='profile', null=True, on_delete=models.CASCADE)
+    hood = models.ForeignKey(Neighbourhood, related_name="neighbourhood", null=True)
+    avatar = models.ImageField(upload_to='avatar/', blank=True, null=True)
+    bio = models.TextField(max_length=500, default="I love my hood")
+    
     def __str__(self):
         return self.user.username
 
     class Meta:
-        unique_together = ("suburb", "user")
+        unique_together = ("hood", "user")
 
     # Create Resident Profile when creating a User
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
-            Resident.objects.create(user=instance)
-        instance.resident.save()
+            Profile.objects.create(user=instance)
+        instance.profile.save()
 
 
 class Post(models.Model):
