@@ -18,8 +18,8 @@ class NeighborhoodTestClass(TestCase):
     def test_instance(self):
         self.assertTrue(isinstance(self.thome, Neighbourhood))
 
-    def test_save_neighborhood(self):
-        self.Dandora.save_neighborhood()
+    def test_save_hood(self):
+        self.Dandora.save_hood()
         neighborhood = Neighbourhood.objects.all()
         self.assertTrue(len(neighborhood) > 0)
 
@@ -30,7 +30,7 @@ class BusinessTestClass(TestCase):
         self.new_user.save()
         self.Dandora = Neighbourhood(
             name='Dandora', location='Dandora', occupants_count=5, admin=self.new_user)
-        self.Dandora.save_neighborhood()
+        self.Dandora.save_hood()
         self.kinyozi = Business(
             name='restaurant', email='michael@gmail.com', user=self.new_user, neighborhood=self.thome)
         self.restaurant.save()
@@ -55,7 +55,7 @@ class PostTestClass(TestCase):
         self.new_user.save()
         self.Dandora = Neighbourhood(
             name='Dandora', location='Dandora', occupants_count=5, admin=self.new_user)
-        self.Dandora.save_neighborhood()
+        self.Dandora.save_hood()
         self.michael = User(name="michael", user=self.new_user,
                          neighborhood=self.Dandora)
         self.michael.save_user()
@@ -82,7 +82,7 @@ class UserTestClass(TestCase):
         self.new_user.save()
         self.Dandora = Neighbourhood(
             name='Dandora', location='Dandora', occupants_count=5, admin=self.new_user)
-        self.Dandora.save_neighborhood()
+        self.Dandora.save_hood()
         self.michael = User(name="michael", user=self.new_user,
                          neighborhood=self.Dandora)
         self.michael.save()
