@@ -75,7 +75,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 class Post(models.Model):
     user = models.ForeignKey(User, related_name="posts", null=True)
     image = models.ImageField(upload_to='post_image/', blank=True, null=True)
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     message = models.TextField()
     topic = models.CharField(max_length=300)
     hood=models.ForeignKey(Neighbourhood)
@@ -94,7 +94,7 @@ class Comments(models.Model):
     '''
 
     comment = models.CharField(max_length=300)
-    posted_on = models.DateTimeField(auto_now=True)
+    posted_on = models.DateTimeField(auto_now=True, blank=True, null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
