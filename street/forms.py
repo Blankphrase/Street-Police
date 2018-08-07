@@ -14,4 +14,9 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields=['bio', 'avatar']
 
-class PostForm
+class PostForm(forms.ModelForm):
+    class Meta:
+        model=Post
+        fields=['topic','message','image']
+
+
