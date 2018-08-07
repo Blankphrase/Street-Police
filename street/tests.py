@@ -9,14 +9,14 @@ class NeighborhoodTestClass(TestCase):
         self.new_user = User(username='michael', email='michael@gmail.com')
         self.new_user.save()
         self.Dandora = Neighbourhood(name='Dandora', location='Dandora', occupants=5)
-        self.dandora.save()
+        self.Dandora.save()
 
     def tearDown(self):
         User.objects.all().delete()
         Neighbourhood.objects.all().delete()
 
     def test_instance(self):
-        self.assertTrue(isinstance(self.thome, Neighbourhood))
+        self.assertTrue(isinstance(self.Dandora, Neighbourhood))
 
     def test_save_hood(self):
         self.Dandora.save_hood()
@@ -31,8 +31,8 @@ class BusinessTestClass(TestCase):
         self.Dandora = Neighbourhood(
             name='Dandora', location='Dandora', occupants_count=5, admin=self.new_user)
         self.Dandora.save_hood()
-        self.kinyozi = Business(
-            name='restaurant', email='michael@gmail.com', user=self.new_user, neighborhood=self.thome)
+        self.restaurant = Business(
+            name='restaurant', email='michael@gmail.com', user=self.new_user, neighborhood=self.Dandora)
         self.restaurant.save()
 
     def tearDown(self):
@@ -58,7 +58,7 @@ class PostTestClass(TestCase):
         self.Dandora.save_hood()
         self.michael = User(name="michael", user=self.new_user,
                          neighborhood=self.Dandora)
-        self.michael.save_user()
+        self.michael.save()
         self.new_post = Post(post='I wanna get lit', author=self.michael)
 
     def tearDown(self):
