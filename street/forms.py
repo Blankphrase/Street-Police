@@ -17,12 +17,12 @@ class ProfileForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model=Post
-        fields = ['topic', 'message', 'image', 'created_at']
+        fields = ['topic', 'message', 'image']
 
 class CommentsForm(forms.ModelForm):
     class Meta:
         model=Comments
-        fields = ['posted_on','comment']
+        fields = ['comment']
 
 class BusinessForm(forms.ModelForm):
     class Meta:
