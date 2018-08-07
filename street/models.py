@@ -59,17 +59,17 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, default="I love my hood")
     
     def __str__(self):
-        return self.user.username
+        return self.user
 
     class Meta:
         unique_together = ("hood", "user")
 
     # Create Resident Profile when creating a User
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-        instance.profile.save()
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
 
 
 class Post(models.Model):
@@ -77,47 +77,33 @@ class Post(models.Model):
     image = models.ImageField(upload_to='post_image/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now=True)
     message = models.TextField()
-    message_html = models.TextField(editable=False)
-    topic = models.ForeignKey(
-        Topic, related_name="posts", null=True, blank=True)
+    topic = models.CharField(max_length=300)
+    hood=models.ForeignKey(Neighbourhood)
+
 
     def __str__(self):
-        return self.message
+        return self.topic
 
-    def save(self, *args, **kwargs):
-        self.message_html = misaka.html(self.message)
-        super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse(
-            "single_post",
-            kwargs={
-                "username": self.user.username,
-                "pk": self.pk
-            }
-        )
-
-    class Meta:
-        ordering = ["-created_at"]
-        unique_together = ["user", "message"]
+    def save_post(self):
+        self.save()
 
 
 class Comments(models.Model):
+    '''
+    Model to handle the comments logic
+    '''
+
     comment = models.CharField(max_length=300)
     posted_on = models.DateTimeField(auto_now=True)
-    image = models.ForeignKey(
-        Image, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save_comment(self):
         self.save()
 
-    def delete_comment(self):
-        self.delete()
-
     @classmethod
-    def get_comments_by_images(cls, id):
-        comments = Comments.objects.filter(image__pk=id)
+    def get_comments_by_posts(cls, id):
+        comments = Comments.objects.filter(post__pk=id)
         return comments
 
 
@@ -133,9 +119,8 @@ class Business(models.Model):
 
 	def __str__(self):
 		return self.name
-	
-    
-    def save_business(self):
+
+	def save_business(self):
 		self.save()
 
 	@classmethod
@@ -143,3 +128,14 @@ class Business(models.Model):
 		business = cls.objects.filter(name__icontains=search_term)
 		return business
 
+    
+
+class hooders(models.Model):
+	'''
+	Model that keeps track of what user has joined what neighbourhood
+	'''
+	user_id = models.OneToOneField(User)
+	hood_id = models.ForeignKey(Neighbourhood)
+
+	def __str__(self):
+		return self.user_id
