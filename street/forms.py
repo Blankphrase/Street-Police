@@ -23,3 +23,13 @@ class CommentsForm(forms.ModelForm):
     class Meta:
         model=Comments
         fields = ['posted_on','comment']
+
+class BusinessForm(forms.ModelForm):
+    class Meta:
+        model=Business
+        fields=['name','email_address','description']
+
+class NeighbourhoodForm(forms.ModelForm):
+    class Meta:
+        model=Neighbourhood
+        fields=['name','population','location']
