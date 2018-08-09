@@ -1,0 +1,142 @@
+{%extends 'base.html'%} {%load bootstrap3 %} {% block content%}
+<div class="row container" style="padding-bottom:20px;">
+
+    <div class="col-md-3" style="padding-top: 24px">
+        {%if user.join%} {% include 'partials/_sidebar.html' %} {%endif%}
+
+    </div>
+    <div class="col-md-8">
+        {% include 'partials/_errors.html' %}
+        <h2>
+            <strong>{{hood.name.capitalize}}</strong>
+        </h2>
+        <h4>County:
+            <strong>{{hood.location.capitalize}}</strong> Hood Population :
+            <strong>{{hood.population}}</strong>
+        </h4>
+        <h4>{{hood.bio}}</h4>
+
+        <a class="btn btn-sm btn-success" href="{% url 'createPost' %}">Create Forum Post</a>
+        <a class="btn btn-sm btn-danger" href="{% url 'exitHood' hood.id %}">Exit Neighbourhood</a>
+
+        <!-- Start of tabbed data -->
+        <p>
+            <div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Forum</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Hood Businesses</a>
+                    </li>
+
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content" style="padding-top:20px">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        <div class="row">
+                            <div class="col-md-7"></div>
+                            <div class="col-md-5">
+                                <form class="" class="" action="{% url 'searchForum' %}">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search Forum" name="searchForum">
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        {%if posts%}
+
+                        <div class="row">
+                            {% for post in posts %}
+
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="col-md-2">
+                                        {{post.user.first_name.capitalize}} {{post.user.last_name.capitalize}}
+                                    </div>
+                                    <div class="col-md-7">
+                                        <strong>
+                                            <a href="{% url 'singlePost' post.id %}">{{post.title.capitalize}}</a>
+                                        </strong>
+                                    </div>
+                                    <div class="col-md-3">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            {% endfor %}
+
+                        </div>
+
+                        {% else %}
+                        <h4 class="text-center">No Post has been created for this hood yet. Be the first to create on
+                            <a href="{% url 'createPost' %}">here</a>
+                        </h4>
+                        {% endif %}
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="profile">
+                        <div class="row">
+                            <div class="col-md-7"></div>
+                            <div class="col-md-5">
+                                <form class="" class="" action="{% url 'searchBusiness' %}">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search Business" name="searchBusiness">
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            {% if businesses %} {% for biz in businesses %}
+
+                            <div class="col-md-6">
+                                <div class="panel panel-default">
+
+                                    <div class="panel-heading">
+                                        {{biz.name.capitalize}}
+                                    </div>
+                                    <div class="panel-body">
+                                        <p>{{biz.description.capitalize}}</p>
+                                        {%if biz.user == user%}
+                                        <a href="{% url 'editBusiness' biz.id %}" class="btn btn-sm btn-primary">Edit</a>
+                                        {%endif%}
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                            {%endfor%} {% else %}
+                            <h4 class="text-center">No Business has been created for this hood yet. Be the first to create on
+                                <a href="{% url 'createBusiness' %}">here</a>
+                            </h4>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </p>
+
+    </div>
+    <div class="col-md-1"></div>
+
+</div>
+<div class="row">
+
+</div>
+
+
+{%endblock%}

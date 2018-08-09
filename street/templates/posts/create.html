@@ -1,0 +1,27 @@
+{%extends 'base.html'%} {%load bootstrap3%} {%block content%}
+<div class="row container" style="padding-bottom:20px">
+
+    <div class="col-md-3">
+        {%if user.join%} {% include 'partials/_sidebar.html' %} {%endif%}
+
+    </div>
+    <div class="col-md-7">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="">Create Forum Post</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{% url 'createPost' %}" method="post">
+
+                    {%csrf_token%} {% bootstrap_form form %}
+                    <button type="submit" class="btn btn-success btn-sm btn-block">Create Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+
+</div>
+
+{%endblock%}

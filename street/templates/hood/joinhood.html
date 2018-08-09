@@ -1,0 +1,47 @@
+{%extends 'base.html'%} {%block content%}
+
+<div class="container">
+    <h4>Welcome to kaa Rada. Start using Kaa Rada by joining a neighbourhood. If you neighbourhood doesn't yet exist, create
+        one
+        <a href="{% url 'createHood' %}">here</a>
+    </h4>
+    {% include 'partials/_errors.html' %}
+    <form class="" action="{% url 'search' %}">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search Neighbourhood" name="search">
+
+        </div>
+
+        <button type="submit" class="btn btn-default">Submit</button>
+
+    </form>
+
+    <div class="row" style="padding-top: 20px">
+
+
+
+        {%for hood in neighbourhoods%}
+        <div class="col-md-4">
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    {{hood.name.capitalize}}
+                </div>
+                <div class="panel-body">
+                    <p>{{hood.description.capitalize}}</p>
+
+
+                    <a href="{% url 'joinHood' hood.id %}" class="btn btn-sm btn-success">Join</a>
+
+                </div>
+
+
+
+            </div>
+        </div>
+        {%endfor%}
+
+
+    </div>
+</div>
+{%endblock%}

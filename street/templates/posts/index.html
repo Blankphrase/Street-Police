@@ -1,0 +1,41 @@
+{%extends 'base.html'%} {%block content%}
+
+<div class="row container" style="padding-bottom:20px">
+
+    <div class="col-md-3" style="padding-top: 24px">
+        {%if user.join%} {% include 'partials/_sidebar.html' %} {%endif%}
+    </div>
+    <div class="col-md-7">
+        <h3>View all your Forum Posts</h3>
+        {% include 'partials/_errors.html' %} {% if myPosts %} {%for post in myPosts%}
+        <div class="row">
+            <div class="panel panel-default">
+
+
+                <div class="panel-body">
+                    <p>{{post.title.capitalize}}</p>
+
+                    <a href="{% url 'editPost' post.id %}" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="{% url 'deletePost' post.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+
+
+
+            </div>
+        </div>
+        {%endfor%} {%else%}
+        <h4>You havent created any forum posts yet. You can create one
+            <a href="{% url 'createPost' %}">here</a>
+        </h4>
+        {%endif%}
+
+
+
+    </div>
+    <div class="col-md-2"></div>
+
+
+</div>
+
+
+{%endblock%}

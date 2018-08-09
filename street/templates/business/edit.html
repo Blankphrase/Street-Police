@@ -1,0 +1,30 @@
+{%extends 'base.html'%} {%load bootstrap3%} {%block content%}
+
+<div class="row container" style="padding-bottom:20px">
+
+    <div class="col-md-3" style="padding-top: 0px">
+        {%if user.join%} {% include 'partials/_sidebar.html' %} {%endif%}
+
+    </div>
+    <div class="col-md-7">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="">Edit Business</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{% url 'editBusiness' business.id %}" method="post">
+
+                    {%csrf_token%} {% bootstrap_form form %}
+                    <button type="submit" class="btn btn-success">Update Biz Info</button>
+                </form>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="col-md-2"></div>
+
+</div>
+{%endblock%}

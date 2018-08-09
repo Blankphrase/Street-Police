@@ -1,0 +1,35 @@
+{%extends 'base.html'%} {% block content%}
+<div class="row container" style="padding-bottom:20px">
+
+    <div class="col-md-3" style="padding-top: 24px">
+        {%if user.join%} {% include 'partials/_sidebar.html' %} {%endif%}
+
+    </div>
+    <div class="col-md-7">
+        {% include 'partials/_errors.html' %}
+        <h2>
+            <strong>{{profile.user}}</strong>
+        </h2>
+
+        <h4>
+            <strong></strong> County:
+            <strong>{{user.join.hood_id.location.capitalize}}</strong> Neighbourhood:
+            <strong>{{user.join.hood_id.name.capitalize}}</strong>
+        </h4>
+        <h4>{{profile.bio}}</h4>
+        {%if profile.user.id == user.id%}
+        <a class="btn btn-sm btn-success" href="{% url 'createPost' %}">Create Post</a>
+        <a class="btn btn-sm btn-primary" href="{% url 'editProfile' %}"> Update Profile</a>
+
+        {%else%} {%if is_follow%}
+        <a href="" class="btn btn-danger">Unfollow</a>
+        {%else%}
+        <a href="" class="btn btn-success">Follow</a>
+        {%endif%} {%endif%}
+    </div>
+    <div class="col-md-2"></div>
+
+</div>
+
+
+{%endblock%}
